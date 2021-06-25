@@ -20,6 +20,10 @@ Libraries Used:
     - Media uploads (audio/video)
     - Assign Grades/Due Dates
     - Cancel/Add Lessons
+- Course Catalouge
+    - Description of Course
+    - Course Length
+    - Cost
 - Student Page
     - View lesson Documentation/Media
     - Upload course completed assignments
