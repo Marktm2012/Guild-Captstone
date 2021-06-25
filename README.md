@@ -1,8 +1,7 @@
 # Guild-Captstone
 
 ## Project Overview
-What are the major features?
-My Capstone is a Django application for private lesson management
+My Capstone is a Django application for Private lesson management. Where private instructors can upload and manage documentation, media, track grading and due dates
 
 Libraries Used:
     - Django
@@ -16,16 +15,24 @@ Libraries Used:
     - Student
         - Login
         - New Student Registration
-- Lesson Planning
+- Instructor Page
     - Document Upload
     - Media uploads (audio/video)
+    - Assign Grades/Due Dates
     - Cancel/Add Lessons
+- Student Page
+    - View lesson Documentation/Media
+    - Upload course completed assignments
+    - View due dates for lessons and payments
 - Billing
     - Track Payments
     - Alerts student and teacher when a new payment is due
 ## Data Model
-What data is being stored?
-- List out models and their field types
+- Users
+    - Instructor
+    - Student
+- Lesson U
+
 ## Schedule
 - Week 1
     - Create models
@@ -34,4 +41,5 @@ What data is being stored?
 - Week 2
 
 - Week 3
+    - Media Uploads
     - Styling
