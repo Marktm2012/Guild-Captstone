@@ -51,6 +51,7 @@ Libraries Used:
 - Week 2
     - Troubleshooting
 - Week 3
+    - Invoice, payments
     - Media Uploads
     - Styling
     - Testing
