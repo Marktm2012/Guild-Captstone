@@ -33,21 +33,16 @@ Libraries Used:
     - Track Payments
     - Alerts student and teacher when a new payment is due
 ## Data Model
-- Custom User models
-    - Instructor
+- Custom User model
+    - User
         - First/Last Name (CharField)
         - Birthday (DateField)
         - email (emailField)
         - Bio (CharField)
         - Location (Charfield)
         - Phone Number (CharField)
-    - Student
-        - First/Last Name (CharField)
-        - Birthday (Date Field)
-        - email (emailField)
-        - Bio (CharField)
-        - Location (Charfield)
-        - Phone Number (CharField)
+        - Instructor T/F (BoolField)
+
 - Course Uploads
     - Course Descriptions (TextField)
     - Instructor (Foreign Key to Instructor)
@@ -56,7 +51,7 @@ Libraries Used:
     - Pricing (IntegerField)
 ## Schedule
 - Week 1
-    - Create custom user models for Students and Teachers
+    - Create custom user model
     - Create models
         -Test with dummy data possibly provided by Faker
     - Troubleshooting
