@@ -11,6 +11,7 @@ class User(AbstractUser):
     location = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=11)
     is_instructor = models.BooleanField(default=False)
+    # enrollments to be added once instructapp models are created
 
     def __str__(self):
         return self.last_name + ', ' + self.first_name
