@@ -1,7 +1,7 @@
 # Guild-Captstone
 
 ## Project Overview
-My Capstone is a Django application for Private lesson management. Where private instructors can upload and manage documentation, media, track grading and due dates. I would also like to add invoicing and maybe a payment system.
+The Instructor's Agenda is a Django application for Private Lesson management. Where private instructors can upload and manage documentation, media, track grading and due dates. I would also like to add invoicing and maybe a payment system.
 
 Libraries Used:
     - Django
@@ -9,7 +9,7 @@ Libraries Used:
     - Vue/Vuetify
 
 ## Functionality
-- User System
+- Custom User System
     - Teacher/Instructor
         - Login
         - New Instructor Registration
@@ -33,9 +33,21 @@ Libraries Used:
     - Track Payments
     - Alerts student and teacher when a new payment is due
 ## Data Model
-- Users
+- Custom User models
     - Instructor
+        - First/Last Name (CharField)
+        - Birthday (DateField)
+        - email (emailField)
+        - Bio (CharField)
+        - Location (Charfield)
+        - Phone Number (CharField)
     - Student
+        - First/Last Name (CharField)
+        - Birthday (Date Field)
+        - email (emailField)
+        - Bio (CharField)
+        - Location (Charfield)
+        - Phone Number (CharField)
 - Course Uploads
     - Course Descriptions (TextField)
     - Instructor (Foreign Key to Instructor)
@@ -44,8 +56,8 @@ Libraries Used:
     - Pricing (IntegerField)
 ## Schedule
 - Week 1
+    - Create custom user models for Students and Teachers
     - Create models
-    - Create user system for Students and Teachers
         -Test with dummy data possibly provided by Faker
     - Troubleshooting
 - Week 2
