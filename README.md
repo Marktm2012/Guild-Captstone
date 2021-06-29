@@ -54,6 +54,8 @@ Libraries Used:
     - Create custom user model
     - Create models
         -Test with dummy data possibly provided by Faker
+    - render registration/login page
+    - Get form submission for user creation and login working
     - Troubleshooting
 - Week 2
     - Troubleshooting
