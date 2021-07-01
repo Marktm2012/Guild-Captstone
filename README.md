@@ -43,13 +43,29 @@ Libraries Used:
         - Location (Charfield)
         - Phone Number (CharField)
         - Instructor T/F (BoolField)
+        - enrollments (manytomany to course)
 
-- Course Uploads
-    - Course Descriptions (TextField)
-    - Instructor (Foreign Key to Instructor)
-    - Media(Audio/Video) (FileField)
-    - Due Dates (DateTimeField)
-    - Pricing (IntegerField)
+- Course Model
+    - Title (CharField)
+    - Overview (TextField)
+    - Start Date (DateField)
+    - Instructor (ForeignKey to User)
+    - Price (FloatField)
+- Lesson Model
+    - Course (ForeignKey to Course)
+    - Title (CharField)
+    - Overview (TextField)
+    - Due Date (DateField)
+- Lesson Uploads Model
+    - Lesson (ForeignKey to Lesson)
+    - Title (CharField)
+    - Media (FileField)
+- Student Submission Model
+    - Lesson (ForeignKey to Lesson)
+    - Student (ForeignKey to User)
+    - Submission (FileField)
+    - Feedback (TextField)
+
 ## Schedule
 - Week 1
     - Create custom user model
