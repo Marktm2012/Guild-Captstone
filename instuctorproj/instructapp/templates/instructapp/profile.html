@@ -1,0 +1,10 @@
+{% extends 'instructapp/base.html' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block content %}
+This is the profile page for {{user.username}}
+{{user.first_name}}
+{{user.last_name}}
+<a href="{% url 'users:logout'%}" class="btn">Logout</a>
+{% endblock %}

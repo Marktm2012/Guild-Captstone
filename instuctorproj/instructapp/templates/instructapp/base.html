@@ -26,8 +26,17 @@
                 delimiters: ['[[', ']]'],
                 data: {
                     title: 'Hello World!',
+                    register: false,
                 },
                 methods: {
+                    regLog: function(){
+                        if (this.register == true){
+                            this.register = false
+                        } else{
+                            this.register = true
+                        }
+                        console.log(this.register)
+                    }
                 },
                 created: function() {
                 }

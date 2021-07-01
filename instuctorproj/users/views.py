@@ -1,7 +1,10 @@
-from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.http.response import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, reverse
 from .models import User
 from datetime import datetime
+import django.contrib.auth
+from django.contrib.auth.decorators import login_required
+
 
 def register(request):
     if request.method == 'POST':
@@ -31,4 +34,22 @@ def register(request):
         user.save()
     return render(request, ('users/register.html'))
 
- 
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        print(username + ' ' + password)
+        user = django.contrib.auth.authenticate(request, username=username, password=password)
+        print(user)
+        if user is not None:
+            django.contrib.auth.login(request, user)
+            return HttpResponseRedirect(reverse('instructapp:profile'))
+        else:
+            return render(request, 'users/register.html', {'error': 'Incorrect username or password'})
+    else:
+        return render(request, ('users/register.html'))
+
+@login_required
+def logout(request):
+    django.contrib.auth.logout(request)
+    return HttpResponseRedirect(reverse('users:register'))
