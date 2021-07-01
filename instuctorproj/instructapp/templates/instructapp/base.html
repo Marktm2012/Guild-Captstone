@@ -27,6 +27,8 @@
                 data: {
                     title: 'Hello World!',
                     register: false,
+                    password: '',
+                    re_password: '',
                 },
                 methods: {
                     regLog: function(){
@@ -36,7 +38,7 @@
                             this.register = true
                         }
                         console.log(this.register)
-                    }
+                    },
                 },
                 created: function() {
                 }
