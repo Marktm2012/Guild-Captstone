@@ -8,6 +8,9 @@ def index(request):
     return render(request, 'instructapp/base.html')
 
 
+def course_page(request):
+    return render(request, 'instructapp/course_page.html')
+
 @login_required
 def profile(request):
     user_profile = request.user

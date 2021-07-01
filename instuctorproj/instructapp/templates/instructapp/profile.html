@@ -3,8 +3,6 @@
 {% block title %}Hello!{% endblock %}
 
 {% block content %}
-This is the profile page for {{user.username}}
-{{user.first_name}}
-{{user.last_name}}
+<h1>Profle Page</h1>
 <a href="{% url 'users:logout'%}" class="btn">Logout</a>
 {% endblock %}

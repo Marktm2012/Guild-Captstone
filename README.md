@@ -74,7 +74,10 @@ Libraries Used:
     - Get form submission for user creation and login working
     - Troubleshooting
 - Week 2
-    - Troubleshooting
+    - Create Course Page
+        - Add Course/Lesson Creation (Only available to Instructor)
+        - Add Assignment submission (student side only)
+        - Add feedback submission (Instructor side only)
 - Week 3
     - Invoice, payments
     - Media Uploads
