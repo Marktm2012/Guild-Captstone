@@ -6,8 +6,9 @@ The Instructor's Agenda is a Django application for Private Lesson management. W
 Libraries Used:
     - Django
     - Bootstrap
-    - Vue/Vuetify
+    - Vue
     - Axios
+    - CKEditor
 
 ## Functionality
 - Custom User System
