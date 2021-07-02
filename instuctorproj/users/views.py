@@ -22,6 +22,7 @@ def register(request):
         birthday = request.POST['birthday']
         birthday = datetime.strptime(birthday, '%Y-%m-%d')
         bio = request.POST['bio']
+        print(request.POST['bio'])
         # ----------------------------------
         user = User.objects.create_user(username,email,password)
         user.first_name = first_name

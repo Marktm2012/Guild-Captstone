@@ -57,9 +57,10 @@
                 <input id="location" class="form-control" type="text" name="location">
             </div>
         </div>
-        <div class="row mx-1">
+        <div class="row">
             <label for="bio">Biography</label>
-            <textarea id="bio" type="form-control" name="bio"></textarea>
+            <input type="hidden" name="bio" v-model="editorData"></input>
+            <ckeditor v-model="editorData" :config="editorConfig"></ckeditor>
         </div>
         <button type="submit" v-bind:disabled="password != re_password || password === ''" class="btn btn-primary">submit</button>
     </form>
