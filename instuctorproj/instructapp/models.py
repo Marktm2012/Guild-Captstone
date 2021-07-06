@@ -6,7 +6,8 @@ class Course(models.Model):
     title = models.CharField(max_length=100)
     overview = models.TextField()
     start_date = models.DateField(null=True)
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='course')
+    instructor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses_taught')
+    enrolled = models.ManyToManyField(User, related_name='courses_enrolled', blank=True)
     price = models.FloatField()
 
     def __str__(self):
@@ -14,7 +15,7 @@ class Course(models.Model):
 
 # Lesson Model
 class Lesson(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lesson')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
     title = models.CharField(max_length=100)
     overview = models.TextField()
     due_date = models.DateTimeField(null=True)
@@ -34,8 +35,8 @@ class LessonUploads(models.Model):
 
 # Student Submission/Feedback Model
 class StudentSubmission(models.Model):
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='submission')
-    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submission')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='submissions')
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submissions')
     submission = models.FileField()
     feedback = models.TextField()
 

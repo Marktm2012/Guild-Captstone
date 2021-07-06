@@ -4,6 +4,7 @@ from django.utils import timezone
 
 
 class User(AbstractUser):
+    profile_picture = models.ImageField(upload_to='images/', blank=True, null=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     password = models.CharField(max_length=128)
@@ -15,7 +16,6 @@ class User(AbstractUser):
     # Boolean to decifer between student and teacher
     is_instructor = models.BooleanField(default=False)
     # enrollments to be added once instructapp models are created
-    enrollments = models.ManyToManyField('instructapp.Course', related_name='course')
 
 
     def __str__(self):

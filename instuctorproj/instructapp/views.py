@@ -14,7 +14,9 @@ def course_page(request):
 @login_required
 def profile(request):
     user_profile = request.user
+    courses_taught = User.objects.course.all()
     context = {
         'user_profile':user_profile,
+        'courses_taught':courses_taught
     }
     return render(request, 'instructapp/profile.html', context)
