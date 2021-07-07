@@ -29,7 +29,7 @@ def profile(request):
     return render(request, 'instructapp/profile.html', context)
 
 @login_required
-def create_lesson(request):
+def create_lesson(request, course_id):
     if request.method == 'POST':
         print(request.POST)
     return render(request, 'instructapp/course_page.html')
