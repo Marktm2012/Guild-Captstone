@@ -1,14 +1,79 @@
 {% extends 'instructapp/base.html' %}
 
 {%block content%}
-<h1>Course Page</h1>
-
-
-
-
-
-
+<div class="container">
+    <div>
+        <h2>{{course.title}}</h2>
+        <hr>
+        <div>{{course.overview|safe}}</div>
+        <hr>
+    </div>
+    <div class="row">
+        <span>Taught By: {{course.instructor.last_name}}, {{course.instructor.first_name}}</span>
+        <span>Start Date: {{course.start_date}}</span>
+    </div>
+    <hr>
+    <!-- Modal launch for lesson creation -->
+    {% if user == course.instructor %}
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lessonCreation">Create New
+        Lesson</button>
+    {%endif%}
+    <!-- Accordion for created lessons for the course -->
+    <div class="row">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            {%for lesson in lessons%}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapse{{forloop.counter}}" aria-expanded="false"
+                        aria-controls="flush-collapse{{forloop.counter}}">
+                        {{lesson.title}}
+                    </button>
+                </h2>
+                <div id="flush-collapse{{forloop.counter}}" class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        {{lesson.overview|safe}}
+                        <hr>
+                        <span>
+                            {{lesson.due_date}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+<!-- Modal for lesson creation -->
+<div class="modal fade" id="lessonCreation" tabindex="-1" aria-labelledby="lessonCreationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lessonCreationLabel">Lesson Creation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'instructapp:create_lesson' course.id %}" method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <label for="l_title">Title:</label>
+                        <input class="form-control" id="l_title" type="text" name="l_title">
+                    </div>
+                    <div>
+                        <label for="l_overview">Overview:</label>
+                        <input type="hidden" name="l_overview" v-model="l_overview">
+                        <ckeditor v-model="l_overview" :config="editorConfig"></ckeditor>
+                    </div>
+                    <div>
+                        <label for="l_due_date">Due Date:</label>
+                        <input class="form-control" type="date" name="l_due_date">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Lesson</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {%endblock%}
-
-

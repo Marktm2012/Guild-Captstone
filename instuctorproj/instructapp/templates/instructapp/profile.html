@@ -11,7 +11,9 @@
     <div class="row">
         <div class="col">
             <div class="card">
+                {% if user.profile_picture%}
                 <img class="rounded-circle" src="{{user.profile_picture.url}}" width="300">
+                {%endif%}
             </div>
 
         </div>
@@ -31,28 +33,22 @@
             </ul>
         </div>
     </div>
-    <!-- accordion -->
-    <div class="row">
-        <div class="col">
-            <div class="accordion" id="accordionExample">
-                {% for course in courses_taught %}
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            {{course.title}}
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            {{course.overview}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col"></div>
-    </div>
+   <!-- list for classes enrolled in/instructing -->
+   <div class="row">
+       <div class="col">
+        <h5>Instructing</h5>
+        {%for course in courses_taught%}
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <span>course.title</span><a class="btn btn-success" href="{% url 'instructapp:course_page' course.id %}">Course Page</a>
+            </li>
+        </ul>
+        {%endfor%}
+       </div>
+       <div class="col">
+
+       </div>
+   </div>
+    
 </div>
 {% endblock %}

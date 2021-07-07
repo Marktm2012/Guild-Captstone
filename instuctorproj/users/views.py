@@ -39,9 +39,7 @@ def login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        print(username + ' ' + password)
         user = django.contrib.auth.authenticate(request, username=username, password=password)
-        print(user)
         if user is not None:
             django.contrib.auth.login(request, user)
             return HttpResponseRedirect(reverse('instructapp:profile'))

@@ -8,4 +8,4 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('profile_picture','birthday','bio', 'location', 'phone_number', 'is_instructor')}),
     )
 
-admin.site.register(User, CustomUserAdmin)
+admin.site.register(User, CustomUserAdmin)  
