@@ -18,19 +18,13 @@ Libraries Used:
     - Student
         - Login
         - New Student Registration
-- Instructor Page
-    - Document Upload
-    - Media uploads (audio/video)
-    - Scheduling (Google Calenders?)
-    - Cancel/Add Lessons
-- Course Catalouge
-    - Description of Course
-    - Course Length
-    - Cost
-- Student Page
-    - View lesson Documentation/Media
-    - Upload course completed assignments
-    - View due dates for lessons and payments
+- User Profile
+    - Displays user information and can be edited if needed
+    - View instructing/enrolled classes
+    - Create a new course
+- Course Page
+    - Displays Overview of the course
+    - Create/Edit lessons as needed
 - Billing
     - Track Payments
     - Alerts student and teacher when a new payment is due

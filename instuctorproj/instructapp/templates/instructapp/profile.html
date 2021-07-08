@@ -3,26 +3,20 @@
 {% block title %}Hello!{% endblock %}
 
 {% block content %}
-<a href="{% url 'users:logout'%}" class="btn btn-success">Logout</a>
-
-
-
+<style>
+    #profile_picture {
+        display: flex;
+        justify-content: center;
+    }
+</style>
 <div class="container">
     <div class="row">
-        <div class="col">
-            <div class="card">
-                {% if user.profile_picture%}
-                <img class="rounded-circle" src="{{user.profile_picture.url}}" width="300">
-                {%endif%}
-            </div>
-
+        <div id="profile_picture" class="col">
+            {% if user.profile_picture%}
+            <img class="img-fluid border-3" src="{{user.profile_picture.url}}" width="400">
+            {%endif%}
         </div>
         <div class="col">
-            <h1>{{user.username}}</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="card">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">First Name: {{user.first_name}}</li>
                 <li class="list-group-item">Last Name: {{user.last_name}}</li>
@@ -33,22 +27,26 @@
             </ul>
         </div>
     </div>
-   <!-- list for classes enrolled in/instructing -->
-   <div class="row">
-       <div class="col">
-        <h5>Instructing</h5>
-        {%for course in courses_taught%}
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <span>course.title</span><a class="btn btn-success" href="{% url 'instructapp:course_page' course.id %}">Course Page</a>
-            </li>
-        </ul>
-        {%endfor%}
-       </div>
-       <div class="col">
+    <div class="row">
+        <div>{{user.bio|safe}}</div>
+    </div>
+    <!-- list for classes enrolled in/instructing -->
+    <div class="row">
 
-       </div>
-   </div>
-    
+        <div class="col">
+            {%for course in courses_taught%}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <span>{{course.title}}</span><a class="btn btn-success"
+                        href="{% url 'instructapp:course_page' course.id %}">Course Page</a>
+                </li>
+            </ul>
+            {%endfor%}
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+
 </div>
 {% endblock %}

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container">
+<div id="app" class="container">
     <button @click="regLog">Switch</button>
     <!-- Registration Form -->
     <form v-if="register == true" action="{% url 'users:register' %}" method="POST">
@@ -83,5 +83,38 @@
     </form>
 </div>
 
+<!-- Page JS -->
+<script type="text/javascript">
+    let app = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        components: {
+            // Use the <ckeditor> component in this view.
+            ckeditor: CKEditor.component
+        },
+        data: {
+            title: 'Hello World!',
+            register: false,
+            password: '',
+            re_password: '',
+            editorData: '<p></p>',
+            editorConfig: {},
+            l_overview: '<p></p>',
+
+        },
+        methods: {
+            regLog: function () {
+                if (this.register == true) {
+                    this.register = false
+                } else {
+                    this.register = true
+                }
+                console.log(this.register)
+            },
+        },
+        created: function () {
+        }
+    })
+</script>
 
 {% endblock %}
