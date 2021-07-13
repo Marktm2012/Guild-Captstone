@@ -25,7 +25,7 @@ Libraries Used:
 - Course Page
     - Displays Overview of the course
     - Create/Edit lessons as needed
-- Billing
+- Billing (Might not be added due to time)
     - Track Payments
     - Alerts student and teacher when a new payment is due
 ## Data Model
@@ -74,7 +74,6 @@ Libraries Used:
         - Add Assignment submission (student side only)
         - Add feedback submission (Instructor side only)
 - Week 3
-    - Invoice, payments
     - Media Uploads
     - Styling
     - Testing

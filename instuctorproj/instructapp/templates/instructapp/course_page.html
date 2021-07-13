@@ -4,7 +4,7 @@
 <style>
     #course_overview {
         color: black;
-        background-color: #1A8693;
+        background-color: #0B5D1E;
         padding: 15px;
     }
 </style>
@@ -76,7 +76,7 @@
         </div>
     </div>
 </div>
-<!-- Page JS -->
+<!-- Course_Page JS -->
 <script type="text/javascript">
     let app = new Vue({
         el: '#course_app',
@@ -119,7 +119,7 @@
                         due_date: this.l_due_date,
                         course_id: "{{course_id}}",
                     }
-                }).then(response => {
+                }).then((response) => {
                     this.getCourse()
                 })
             }

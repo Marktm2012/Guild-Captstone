@@ -1,0 +1,145 @@
+{% extends 'instructapp/base.html' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block content %}
+<style>
+    #profile_picture {
+        display: flex;
+        justify-content: center;
+    }
+    #welcome {
+        font-family: Dancing Script;
+        color: #139A43;
+    }
+    #instruct_title {
+        background-color: #0B5D1E;
+        color: black
+    }
+</style>
+<div id="profile_app" class="container">
+    <div class="row d-flex align-items-center">
+        <div id="profile_picture" class="col">
+            {% if user.profile_picture%}
+            <img class="img-fluid rounded-circle" src="{{user.profile_picture.url}}" width="200">
+            {%else%}
+            <img class="img-fluid rounded-circle" src="instructor/uploaded_files/images/generic_nerd_image.jpg" width="200">
+            {%endif%}
+        </div>
+        <div id="welcome" class="col">
+            <h1>Welcome, {{user.first_name}}</h1>
+        </div>
+    </div>
+    
+    <!-- Modal Launch button for Course Creation -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CourseCreation">Create
+        Course</button>
+    <!-- list for classes enrolled in/instructing -->
+    <div class="row">
+
+        <div class="col">
+            <div id="instruct_title" class="text-center"><h3>Courses Instructing:</h3></div>
+            <ul v-for="(course, index) in instructing" class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>[[course.title]]</span><a class="btn btn-success" :href="'/course_page/'+course.id+'/'">Course Page</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+
+    <!-- Modal for Course Creation -->
+    <div class="modal fade" id="CourseCreation" tabindex="-1" aria-labelledby="CourseCreationLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CourseCreationLabel">Course Creation</h5>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <label for="title">Title:</label>
+                        <input v-model="title" class="form-control" id="title" type="text">
+                    </div>
+                    <div>
+                        <label for="overview">Overview:</label>
+                        <!-- <input type="hidden" name="overview" v-model="overview"> -->
+                        <ckeditor v-model="overview" :config="editorConfig"></ckeditor>
+                    </div>
+                    <div>
+                        <label for="start_date">Start Date:</label>
+                        <input v-model="start_date" class="form-control" type="date">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" v-model="price" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                    <button type="submit" data-bs-dismiss="modal" @click="createCourse" class="btn btn-primary">Create
+                        Course</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let app = new Vue({
+        el: '#profile_app',
+        delimiters: ['[[', ']]'],
+        components: {
+            // Use the <ckeditor> component in this view.
+            ckeditor: CKEditor.component
+        },
+        data: {
+            editorConfig: {},
+            instructing: [],
+            title: '',
+            overview: '<p></p>',
+            start_date: '',
+            price: '',
+        },
+        methods: {
+            getInstructed: function () {
+                axios({
+                    method: "get",
+                    url: "{% url 'instructapp:courses_taught' %}",
+                    params: {
+                        user_id: "{{user.id}}"
+                    },
+                }).then((response) => {
+                    console.log(response.data)
+                    this.instructing = response.data['instructing']
+                })
+            },
+            clearFields:function() {
+                this.title = ''
+                this.overview = '<p></p>'
+                this.start_date = ''
+                this.price = ''
+            },
+            createCourse: function () {
+                axios({
+                    method: "post",
+                    url: "{% url 'instructapp:create_course' %}",
+                    headers: {'X-CSRFToken': '{{ csrf_token}}'},
+                    data: {
+                        title: this.title,
+                        overview: this.overview,
+                        start_date: this.start_date,
+                        price: this.price,
+                    }
+                }).then((response) => {
+                    this.getInstructed()
+                    this.clearFields()
+                })
+            }
+
+        },
+        created: function () {
+            this.getInstructed()
+        }
+    })
+</script>
+{% endblock %}
+

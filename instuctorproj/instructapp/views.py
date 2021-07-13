@@ -39,14 +39,26 @@ def get_course(request):
     return JsonResponse({'course':course_data, 'lessons':lessons})
 
 @login_required
-def profile(request):
+def profile_management(request):
     user_profile = request.user
-    courses_taught = Course.objects.filter(instructor=request.user.id)
     context = {
         'user_profile':user_profile,
-        'courses_taught':courses_taught
     }
-    return render(request, 'instructapp/profile.html', context)
+    return render(request, 'instructapp/profile_management.html', context)
+
+@login_required
+def courses_taught(request):
+    user = User.objects.get(id=request.GET['user_id'])
+    print(user)
+    courses_instructing = Course.objects.filter(instructor=user)
+    instructing = []
+    for course in courses_instructing:
+        instructing.append({
+            'title':course.title,
+            'id': course.id,
+            'start_date': course.start_date,
+        })
+    return JsonResponse({'instructing':instructing})
 
 @login_required
 def create_lesson(request):
@@ -58,4 +70,17 @@ def create_lesson(request):
     due_date = datetime.strptime(due_date, '%Y-%m-%dT%H:%M')
     lesson_set = Lesson(course=course, title=title, overview=overview, due_date=due_date)
     lesson_set.save()
+    return HttpResponse('ok')
+
+@login_required
+def create_course(request):
+    data = json.loads(request.body)
+    title = data['title']
+    overview = data['overview']
+    start_date  = data['start_date']
+    start_date = datetime.strptime(start_date, '%Y-%m-%d')
+    instructor = request.user
+    price = data['price']
+    course_set = Course(title=title,overview=overview,start_date=start_date,instructor=instructor,price=price)
+    course_set.save()
     return HttpResponse('ok')
