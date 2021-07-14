@@ -9,7 +9,7 @@
         color: #F96900;
     }
 
-    #instruct_title {
+    #courses_list {
         color: #65DEF1;
         font-family: Dancing Script;
         text-align: center;
@@ -22,7 +22,7 @@
     #teaching_list {
         background-color: #A8DCD1;
     }
-    #courses_taught {
+    #courses {
         background-color: #F17F29;
     }
 </style>
@@ -54,20 +54,45 @@
     </div>
 
 
-    <!-- list for classes enrolled in/instructing -->
+    
     <div class="row">
-
-        <div id="courses_taught" class="col mt-2 mx-1 border border-5 rounded-3">
-            <h3 id="instruct_title"><u>Courses Instructing:</u></h3>
-            <ul v-for="(course, index) in instructing" class="list-group list-group-flush">
-                <li id="teaching_list" class="list-group-item d-flex justify-content-between align-items-center my-1 rounded-3">
-                    <span>[[course.title]]</span><a class="btn btn-success" :href="'/course_page/'+course.id+'/'">Course
-                        Page</a>
-                </li>
-            </ul>
+        <!-- list for courses instructing -->
+        <div id="courses" class="col mt-2 mx-1 border border-5 rounded-3">
+            <h3 id="courses_list"><u>Courses Instructing:</u></h3>
+            <div v-if="instructing.length > 0">
+                <ul v-for="(course, index) in instructing"  class="list-group list-group-flush">
+                    <li id="teaching_list" class="list-group-item d-flex justify-content-between align-items-center my-1 rounded-3">
+                        <span>[[course.title]]</span><a class="btn btn-success" :href="'/course_page/'+course.id+'/'">Course
+                            Page</a>
+                    </li>
+                </ul>
+            </div>
+            <div v-else>
+                <ul class="list-group list-group-flush">
+                    <li id="teaching_list" class="list-group-item d-flex justify-content-between align-items-center my-1 rounded-3">
+                        You are currently not instructing any courses.
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col">
-
+        <!-- list for courses attending -->
+        <div id="courses" class="col mt-2 mx-1 border border-5 rounded-3">
+            <h3 id="courses_list"><u>Courses Attending:</u></h3>
+            <div v-if="attending.length > 0">
+                <ul v-for="(course, index) in attending"  class="list-group list-group-flush">
+                    <li id="teaching_list" class="list-group-item d-flex justify-content-between align-items-center my-1 rounded-3">
+                        <span>[[course.title]]</span><a class="btn btn-warning" :href="'/course_page/'+course.id+'/'">Course Page</a>
+                    </li>
+                </ul>
+            </div>
+            <div v-else>
+                <ul class="list-group list-group-flush">
+                    <li id="teaching_list" class="list-group-item d-flex justify-content-between align-items-center my-1 rounded-3">
+                        You are currently not attending any courses.
+                    </li>
+                </ul>
+            </div>
+            
         </div>
     </div>
 
@@ -115,20 +140,6 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
-                            <label for="edit_username">Username</label>
-                            <input class="form-control" id="edit_username" v-model="editUsername" type="text">
-                        </div>
-                        <div class="col">
-                            <label for="editpassord">Password</label>
-                            <input class="form-control" id="editpassword" v-model="editPassword" type="password">
-                        </div>
-                        <div class="col">
-                            <label for="re_password">Re-Enter Password</label>
-                            <input class="form-control" id="re_password" type="password" v-model="re_password">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
                             <label for="edit_first">First Name</label>
                             <input class="form-control" id="edit_first" type="text" v-model="editFirstname">
                         </div>
@@ -157,7 +168,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" v-bind:disabled="editPassword != re_password" v-on:click="editProfile" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
+                    <button type="button" v-on:click="editProfile" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -174,19 +185,17 @@
         data: {
             editorConfig: {},
             instructing: [],
+            attending: [],
             title: '',
             overview: '<p></p>',
             start_date: '',
             price: '',
-            editUsername: '{{user.username}}',
             editFirstname: '{{user.first_name}}',
             editLastname: '{{user.last_name}}',
             editEmail: '{{user.email}}',
             editPhone: '{{user.phone_number}}',
             editLocation: '{{user.location}}',
             editBio: `{{user.bio|safe}}`,
-            editPassword: '',
-            re_password: '',
         },
         methods: {
             getInstructed: function () {
@@ -199,6 +208,7 @@
                 }).then((response) => {
                     console.log(response.data)
                     this.instructing = response.data['instructing']
+                    this.attending = response.data['attending']
                 })
             },
             clearFields: function () {

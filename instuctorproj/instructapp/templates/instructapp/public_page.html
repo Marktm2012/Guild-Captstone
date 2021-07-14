@@ -3,7 +3,31 @@
 {% block content %}
 
 <h1>Public Profile Page</h1>
-
+<div class="container">
+    
+    <div class="row">
+        <!-- Profile Image -->
+        <div class="col">
+            {% if public_profile.profile_picture%}
+            <img src="{{public_profile.profile_picture.url}}">
+            {% else %}
+            <img src="">
+        </div>
+        <!-- basic information -->
+        <div class="col">
+            <ul>
+                <li>{{public_profile.username}}</li>
+                <li>{{public_profile.last_name}}, {{public_profile.first_name}}</li>
+                <li>{{public_profile.birthday}}</li>
+                <li>{{public_profile.email}}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Bio section -->
+        {{public_profile.bio|safe}}
+    </div>
+</div>
 
 
 

@@ -16,8 +16,12 @@ def course_page(request, course_id):
     }
     return render(request, 'instructapp/course_page.html', context)
 
-def public_page(request):
-    return render(request, 'instructapp/public_page.html/')
+def public_page(request, user_id):
+    public_profile = User.objects.get(id=user_id)
+    context = {
+        'public_profile':public_profile
+    }
+    return render(request, 'instructapp/public_page.html/', context)
 
 def get_course(request):
     course_id = request.GET['course_id']
@@ -54,6 +58,8 @@ def courses_taught(request):
     user = User.objects.get(id=request.GET['user_id'])
     print(user)
     courses_instructing = Course.objects.filter(instructor=user)
+    courses_attending = Course.objects.filter(enrolled=user)
+    print(courses_attending)
     instructing = []
     for course in courses_instructing:
         instructing.append({
@@ -61,7 +67,14 @@ def courses_taught(request):
             'id': course.id,
             'start_date': course.start_date,
         })
-    return JsonResponse({'instructing':instructing})
+    attending = []
+    for course in courses_attending:
+        attending.append({
+            'title': course.title,
+            'id': course.id,
+            'start_date': course.start_date,
+        })
+    return JsonResponse({'instructing':instructing, 'attending':attending})
 
 @login_required
 def create_lesson(request):
@@ -92,14 +105,11 @@ def create_course(request):
 def edit_profile(request):
     data = json.loads(request.body)
     user_set = request.user
-    if data['username'] == '':
-        user_set.username == user_set.username
-    else:
-        user_set.username = data['username']
-    if data['password'] == '':
-        user_set.password = user_set.password
-    else:
-        user_set.password = data['password']
-    
+    user_set.bio = data['bio']
+    user_set.first_name = data['first_name']
+    user_set.last_name = data['last_name']
+    user_set.email = data['email']
+    user_set.phone_number = data['phone_number']
+    user_set.location = data['location']
     user_set.save()
     return HttpResponse('ok')
