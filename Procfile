@@ -1,2 +1,2 @@
-web: gunicorn your_project.wsgi
-release: python3 manage.py migrate
+web: cd instructorproj && gunicorn instructorproj.wsgi
+release: cd instructorproj && python3 manage.py migrate
