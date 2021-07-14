@@ -42,7 +42,7 @@ def login(request):
         user = django.contrib.auth.authenticate(request, username=username, password=password)
         if user is not None:
             django.contrib.auth.login(request, user)
-            return HttpResponseRedirect(reverse('instructapp:profile'))
+            return HttpResponseRedirect(reverse('instructapp:profile_management'))
         else:
             return render(request, 'users/register.html', {'error': 'Incorrect username or password'})
     else:

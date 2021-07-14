@@ -16,6 +16,9 @@ def course_page(request, course_id):
     }
     return render(request, 'instructapp/course_page.html', context)
 
+def public_page(request):
+    return render(request, 'instructapp/public_page.html/')
+
 def get_course(request):
     course_id = request.GET['course_id']
     course_info = Course.objects.get(id=course_id)
@@ -83,4 +86,20 @@ def create_course(request):
     price = data['price']
     course_set = Course(title=title,overview=overview,start_date=start_date,instructor=instructor,price=price)
     course_set.save()
+    return HttpResponse('ok')
+
+@login_required
+def edit_profile(request):
+    data = json.loads(request.body)
+    user_set = request.user
+    if data['username'] == '':
+        user_set.username == user_set.username
+    else:
+        user_set.username = data['username']
+    if data['password'] == '':
+        user_set.password = user_set.password
+    else:
+        user_set.password = data['password']
+    
+    user_set.save()
     return HttpResponse('ok')
