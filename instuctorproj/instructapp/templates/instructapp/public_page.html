@@ -1,6 +1,9 @@
 {% extends 'instructapp/base.html' %}
 
 {% block content %}
+<style>
+    
+</style>
 
 <h1>Public Profile Page</h1>
 <div class="container">
@@ -11,7 +14,7 @@
             {% if public_profile.profile_picture%}
             <img src="{{public_profile.profile_picture.url}}">
             {% else %}
-            <img src="">
+            <img src="instructorproj/uploaded_files/image/generic_nerd_image.jpg">
         </div>
         <!-- basic information -->
         <div class="col">
@@ -28,9 +31,6 @@
         {{public_profile.bio|safe}}
     </div>
 </div>
-
-
-
 
 
 {%endblock%}
