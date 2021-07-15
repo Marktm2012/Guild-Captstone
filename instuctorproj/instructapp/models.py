@@ -27,7 +27,7 @@ class Lesson(models.Model):
 class LessonUploads(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='uploads')
     title = models.CharField(max_length=100)
-    media = models.FileField()
+    media = models.FileField(upload_to='videos/', blank=True, null=True)
 
     def __str__(self):
         return self.title + ' (' + self.lesson.title + ')'
@@ -37,7 +37,7 @@ class LessonUploads(models.Model):
 class StudentSubmission(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='submissions')
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submissions')
-    submission = models.FileField()
+    submission = models.FileField(upload_to='videos/', blank=True, null=True)
     feedback = models.TextField()
 
     def __str__(self):
