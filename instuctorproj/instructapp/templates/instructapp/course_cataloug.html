@@ -1,0 +1,47 @@
+{% extends 'instructapp/base.html' %}
+
+{% block content %}
+<style>
+    #cataloug_title {
+        font-family: Dancing Script;
+        font-size: 50px;
+    }
+    #cataloug_table {
+        border:solid;
+        border-color:#A8DCD1;
+        background-color: #F17F29;
+    }
+    #course_button {
+        background-color: #65DEF1;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div id="cataloug_title" class="text-center">Course Cataloug</div>
+    </div>
+    <hr>
+    <div class="row">
+        <table id="cataloug_table" class="table">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">Course</th>
+                    <th scope="col">Instructor</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for course in course_list%}
+                <tr>
+                    <td>{{course.title}}</td>
+                    <td>{{course.instructor}}</td>
+                    <td><a id="course_button" class="btn" href="{% url 'instructapp:course_page' course.id %}">Course Page</a></td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{%endblock%}

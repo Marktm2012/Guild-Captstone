@@ -7,8 +7,16 @@ from datetime import datetime
 import json
 
 # Create your views here.
+@login_required
 def index(request):
     return render(request, 'instructapp/base.html')
+
+def course_cataloug(request):
+    course_list = Course.objects.all()
+    context = {
+        'course_list': course_list
+    }
+    return render(request, 'instructapp/course_cataloug.html', context)
 
 def course_page(request, course_id):
     context = {
@@ -26,6 +34,13 @@ def public_page(request, user_id):
 def get_course(request):
     course_id = request.GET['course_id']
     course_info = Course.objects.get(id=course_id)
+    enrolled = course_info.enrolled.all()
+    enrolled_list =[]
+    for student in enrolled:
+        enrolled_list.append({
+            'student_name':student.last_name+', '+student.first_name,
+            'student_id':student.id,
+        })
     instructor = course_info.instructor.last_name+', '+course_info.instructor.first_name
     lesson_info = Lesson.objects.filter(course=course_info)
     course_data = {
@@ -33,7 +48,7 @@ def get_course(request):
         'overview':course_info.overview,
         'start_date':course_info.start_date,
         'instructor': instructor,
-        'instructor_username':course_info.instructor.username,
+        'instructor_id': course_info.instructor.id,
         'price':course_info.price,
     }
     lessons = []
@@ -43,7 +58,7 @@ def get_course(request):
             'overview':lesson.overview,
             'due_date':lesson.due_date
         })
-    return JsonResponse({'course':course_data, 'lessons':lessons})
+    return JsonResponse({'course':course_data, 'lessons':lessons, 'students_enrolled':enrolled_list})
 
 @login_required
 def profile_management(request):
@@ -54,12 +69,17 @@ def profile_management(request):
     return render(request, 'instructapp/profile_management.html', context)
 
 @login_required
+def picture_upload(request):
+    user = request.user
+    user.profile_picture = request.FILES['profile_picture']
+    user.save()
+    return HttpResponseRedirect(reverse('instructapp:profile_management'))
+
+@login_required
 def courses_taught(request):
     user = User.objects.get(id=request.GET['user_id'])
-    print(user)
     courses_instructing = Course.objects.filter(instructor=user)
     courses_attending = Course.objects.filter(enrolled=user)
-    print(courses_attending)
     instructing = []
     for course in courses_instructing:
         instructing.append({
@@ -112,4 +132,12 @@ def edit_profile(request):
     user_set.phone_number = data['phone_number']
     user_set.location = data['location']
     user_set.save()
+    return HttpResponse('ok')
+
+@login_required
+def enroll(request):
+    data = json.loads(request.body)
+    course = Course.objects.get(id=data['course_id'])
+    course.enrolled.add(request.user)
+    course.save()
     return HttpResponse('ok')

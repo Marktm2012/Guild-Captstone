@@ -7,7 +7,7 @@ class Course(models.Model):
     overview = models.TextField()
     start_date = models.DateField(null=True)
     instructor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses_taught')
-    enrolled = models.ManyToManyField(User, related_name='courses_enrolled', blank=True)
+    enrolled = models.ManyToManyField(User, related_name='students_enrolled', blank=True)
     price = models.FloatField()
 
     def __str__(self):

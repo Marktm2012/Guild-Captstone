@@ -22,6 +22,7 @@
         html,
         body {
             background-color: #DCE2C8;
+            padding-bottom: 30px;
         }
 
         nav {
@@ -34,12 +35,15 @@
         }
 
         .footer {
+            display: flex;
+            align-items: center;
             left: 0;
             bottom: 0;
             width: 100%;
+            height: 5%;
             background-color: #A8DCD1;
             color: #F96900;
-            text-align: center;
+            text-align: start;
             position: fixed;
         }
     </style>
@@ -54,20 +58,19 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                     <li class="nav-item d-flex align-items-center">
-                        <a class="nav-link active" href="{% url 'instructapp:profile_management' %}">Welcome,
-                            {{user.first_name}}</a>
+                        <div class="nav-link">Welcome, {{user.first_name}}</div>
                     </li>
                     {%endif%}
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
+                        <a class="nav-link" href="{% url 'instructapp:profile_management' %}">Home</a>
                     </li>
                     {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'instructapp:public_page' user.id %}">Public Page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'instructapp:course_cataloug' %}">Course Cataloug</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
                     </li>
@@ -84,7 +87,7 @@
     {% block content %}
     {% endblock %}
     <div class="footer">
-        <span>Created by Mark Meherin</span>
+        <span class="ms-4">(C) Class Eagle 2021</span>
     </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"

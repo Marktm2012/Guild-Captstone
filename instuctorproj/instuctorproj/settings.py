@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import django_on_heroku
-import cloudinary_keys
+from . import cloudinary_keys
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage'
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'cloudinary',
     'instructapp',
     'users',
