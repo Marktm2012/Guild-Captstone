@@ -10,7 +10,7 @@
     }
 
     #courses_list {
-        color: #65DEF1;
+        color: #F17F29;
         font-family: Dancing Script;
         text-align: center;
     }
@@ -21,11 +21,15 @@
     }
 
     #teaching_list {
-        background-color: #A8DCD1;
+        background-color: #dce2c8;
     }
 
     #courses {
-        background-color: #F17F29;
+        background-color: #A8DCD1;
+        border: double;
+        border-width: 5px;
+        border-radius: 20px;
+        border-color: #F17F29;
     }
 </style>
 <div id="profile_app" class="container">
@@ -71,15 +75,17 @@
 
     <div class="row">
         <!-- list for courses instructing -->
-        <div id="courses" class="col mt-2 mx-1 border border-5 rounded-3">
+        <div id="courses" class="col mt-2 mx-1 mb-1">
             <h3 id="courses_list"><u>Courses Instructing:</u></h3>
             <div v-if="instructing.length > 0">
                 <ul v-for="(course, index) in instructing" class="list-group list-group-flush">
                     <li id="teaching_list"
                         class="list-group-item d-flex justify-content-between align-items-center my-1 rounded-3">
-                        <span>[[course.title]]</span><a class="btn btn-success"
-                            :href="'/course_page/'+course.id+'/'">Course
-                            Page</a>
+                        <span>[[course.title]]</span>
+                        <div>
+                            <a class="btn btn-success" :href="'/course_page/'+course.id+'/'">Course Page</a>
+                            <button class="btn btn-warning" v-on:click="deleteCourse(course.id)">Delete Course</button>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -93,7 +99,7 @@
             </div>
         </div>
         <!-- list for courses attending -->
-        <div id="courses" class="col mt-2 mx-1 border border-5 rounded-3">
+        <div id="courses" class="col mt-2 mx-1 mb-1">
             <h3 id="courses_list"><u>Courses Attending:</u></h3>
             <div v-if="attending.length > 0">
                 <ul v-for="(course, index) in attending" class="list-group list-group-flush">
@@ -273,6 +279,18 @@
                     console.log(response.data)
                 })
             },
+            deleteCourse: function(course_id){
+                axios({
+                    method: "post",
+                    url: "{% url 'instructapp:delete_course' %}",
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                    data: {
+                        course: course_id
+                    }
+                }).then((response) =>{
+                    this.getInstructed()
+                })
+            }
 
         },
         created: function () {

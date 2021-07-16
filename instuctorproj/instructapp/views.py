@@ -56,7 +56,8 @@ def get_course(request):
         lessons.append({
             'title': lesson.title,
             'overview':lesson.overview,
-            'due_date':lesson.due_date
+            'due_date':lesson.due_date,
+            'id':lesson.id
         })
     return JsonResponse({'course':course_data, 'lessons':lessons, 'students_enrolled':enrolled_list})
 
@@ -103,7 +104,7 @@ def create_lesson(request):
     title = data['title']
     overview = data['overview']
     due_date = data['due_date']
-    due_date = datetime.strptime(due_date, '%Y-%m-%dT%H:%M')
+    due_date = datetime.strptime(due_date, '%Y-%m-%d')
     lesson_set = Lesson(course=course, title=title, overview=overview, due_date=due_date)
     lesson_set.save()
     return HttpResponse('ok')
@@ -140,4 +141,19 @@ def enroll(request):
     course = Course.objects.get(id=data['course_id'])
     course.enrolled.add(request.user)
     course.save()
+    return HttpResponse('ok')
+
+@login_required
+def delete_course(request):
+    data = json.loads(request.body)
+    course = Course.objects.get(id=data['course'])
+    course.delete()
+    return HttpResponse('ok')
+
+@login_required
+def delete_lesson(request):
+    data = json.loads(request.body)
+    print(data)
+    lesson = Lesson.objects.get(id=data["lesson"])
+    lesson.delete()
     return HttpResponse('ok')

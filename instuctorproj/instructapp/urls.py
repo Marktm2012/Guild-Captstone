@@ -14,5 +14,7 @@ urlpatterns = [
     path('edit_profile/', views.edit_profile, name="edit_profile"),
     path('picture_upload', views.picture_upload, name="picture_upload"),
     path('course_cataloug', views.course_cataloug, name="course_cataloug"),
-    path('enroll/', views.enroll, name="enroll")
+    path('enroll/', views.enroll, name="enroll"),
+    path('delete_course/', views.delete_course, name="delete_course"),
+    path('delete_lesson', views.delete_lesson, name="delete_lesson"),
 ]

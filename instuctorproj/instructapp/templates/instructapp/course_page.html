@@ -8,17 +8,27 @@
     }
     #course_overview {
         color: black;
-        background-color: #ce722cea;
+        background-color: #A8DCD1;
         padding: 15px;
         border: double;
-        border-color:#65DEF1;
+        border-color:#F17F29;
         border-radius: 20px;
+        border-width: 10px;
+    }
+    #overview {
+        font-family: Dancing Script;
+        font-size: 30px;
     }
     #lesson_expand {
-        background-color: #ce722cea;
+        background-color: #A8DCD1;
     }
     #lesson_background {
         background-color:#65DEF1;
+    }
+    #accourdion_row {
+        border: double;
+        border-color:#F17F29;
+        border-width: 10px;
     }
 </style>
 <div id="course_app">
@@ -28,6 +38,9 @@
                 <div class="text-center">[[course.title]]</div>
             </div>
             <hr>
+            <div>
+                <div id="overview" class="text-center">Overview:</div>
+            </div>
             <div id="course_overview">
                 <div v-html="course.overview"></div>
             </div>
@@ -35,7 +48,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <span>Taught By: [[course.instructor]]</span>
+                <a class="btn" :href="'/profile/'+course.instructor_id+'/'">Taught By: [[course.instructor]]</a>
                 <br>
                 <span>Start Date: [[course.start_date]]</span>
             </div>
@@ -45,27 +58,28 @@
         </div>
         <hr>
         <!-- Modal launch for lesson creation -->
-        <button v-if="active_user == course.instructor_id" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lessonCreation">Create
-            Lesson</button>
+        <button v-if="active_user == course.instructor_id" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lessonCreation">Create Lesson</button>
+        <hr>
         <!-- Accordion for created lessons for the course -->
-        <div class="row">
+        <div id="accourdion_row">
             <div class="accordion accordion-flush" id="lesson_accordian">
-                <div id="lesson_background" v-for="(lesson, index) in lessons" class="accordion-item">
+                <div id="lesson_background" v-for="(lesson, index) in lessons" class="accordion-item px-0">
                     <h2 class="accordion-header" v-bind:id="'flush-heading' + index">
                         <button id="lesson_expand" class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             v-bind:data-bs-target="'#flush-collapse' + index" aria-expanded="false"
                             v-bind:aria-controls="'flush-collapse' + index">
-                            [[lesson.title]]
+                            [[lesson.id]] [[lesson.title]]
                         </button>
                     </h2>
                     <div v-bind:id="'flush-collapse' + index" class="accordion-collapse collapse"
                         aria-labelledby="flush-headingOne" data-bs-parent="#lesson_accordian">
                         <div class="accordion-body">
                             <span v-html="lesson.overview"></span>
-                            <hr>
-                            <span>
-                                [[lesson.due_date]]
-                            </span>
+                        </div>
+                        <hr>
+                        <div class="accordion-footer d-flex justify-content-between mx-2 align-items-center mb-1">
+                            <span>[[lesson.due_date]]</span>
+                            <button class="btn btn-warning" v-on:click="deleteLesson(lesson.id)">Delete Lesson</button>
                         </div>
                     </div>
                 </div>
@@ -91,7 +105,7 @@
                     </div>
                     <div>
                         <label for="l_due_date">Due Date:</label>
-                        <input v-model="l_due_date" class="form-control" type="datetime-local">
+                        <input v-model="l_due_date" class="form-control" type="date">
                     </div>
                     <button type="submit" @click="createLesson" data-bs-dismiss="modal" class="btn btn-primary">Create Lesson</button>
                 </div>
@@ -157,6 +171,18 @@
                         course_id: '{{course_id}}'
                     }
                 }).then((response)=>{
+                    this.getCourse()
+                })
+            },
+            deleteLesson: function(lesson_id){
+                axios({
+                    method:"post",
+                    url: "{% url 'instructapp:delete_lesson' %}",
+                    headers: {'X-CSRFToken':'{{ csrf_token }}'},
+                    data: {
+                        lesson: lesson_id
+                    }
+                }).then((response)=> {
                     this.getCourse()
                 })
             }
